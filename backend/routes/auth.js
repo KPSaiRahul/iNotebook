@@ -57,7 +57,7 @@ router.post(
       // user.save();    //saving user to mongodb
       // res.json(obj);
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
       res.status(500).send("Some error occurred: " + error.message);
     }
   }
@@ -98,7 +98,7 @@ router.post(
       const authToken = jwt.sign(data, JWT_SECRET);
       res.json({ authToken });
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
       res.status(500).send("Internal Server Error");
     }
   }
