@@ -48,9 +48,12 @@ router.post(
   }
 );
 
-//ROUTE 3: Update an existing note using POST "/api/notes/updatenote". login required.  doesn't require auth
+//ROUTE 3: Update an existing note using PUT "/api/notes/updatenote". login required.  doesn't require auth
 router.put("/updatenotes/:id", fetchuser, async (req, res) => {
   const { title, description, tag } = req.body;
+  try {
+    
+  
   //CREATE newNote Object
   const newNote = {};
   if (title) {
@@ -66,7 +69,7 @@ router.put("/updatenotes/:id", fetchuser, async (req, res) => {
   //Find the note to be updated and update it
 
   let note = await Note.findById(req.params.id);
-  if (!note) res.status(404).send("Not Found");
+  if (!note) {res.status(404).send("Not Found"); return;}
 
   if (note.user.toString() !== req.user.id) {
     return res.status(401).send("Not Allowed");
@@ -77,5 +80,29 @@ router.put("/updatenotes/:id", fetchuser, async (req, res) => {
     { new: true }
   );
   res.json({ note });
+} catch (error) {
+    console.error(error.message);
+    res.status(500).send("Some error occurred: " + error.message);
+}
+});
+
+//ROUTE 4: Delete an existing note using DELETE "/api/notes/deletenote". login required.  doesn't require auth
+router.delete("/deletenote/:id", fetchuser, async (req, res) => {
+  try {
+  //Find the note to be deleted and update it
+
+  let note = await Note.findById(req.params.id);
+  if (!note) {res.status(404).send("Not Found the Note"); return;}
+
+  //Allow deletion only if user owns this note
+  if (!note || note.user.toString() !== req.user.id) {
+    return res.status(401).send("Not Allowed");
+  }
+  note = await Note.findByIdAndDelete(req.params.id);
+  res.json({ "Success":"Note as been deleted", note:note });
+} catch (error) {
+    console.error(error.message);
+    res.status(500).send("Some error occurred: " + error.message);
+}
 });
 module.exports = router;
