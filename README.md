@@ -8,8 +8,44 @@
 
 Here're some of the project's best features:
 
-*   **User Authentication**: Users can sign up log in and log out securely.
-* **Create and Edit Notes**: Users can create new notes and edit existing ones with a rich text editor.
-- **Delete Notes**: Users can delete unwanted notes.
-- **Organize Notes**: Users can organize notes by categorizing them into different notebooks or categories.
-- **Responsive Design**: The application is responsive and works seamlessly across different devices and screen sizes.
+*   User Authentication: Users can sign up log in and log out securely.
+
+<h2>🛠️ Installation Steps:</h2>
+<br/>
+<p>1. Clone the project</p>
+
+```
+git clone https://github.com/KPSaiRahul/iNotebook.git
+```
+
+<br/>
+<p>2. Install all npm packages</p>
+
+```
+cd iNotebook
+npm install
+```
+<br/>
+<h2>🛠️ Running the Code:</h2>
+<br/>
+<p>1. To run the frontend server, go to the terminal and run</p>
+
+```
+npm run start
+```
+<p>The frontend server will run on localhost:/3000</p>
+<p>2. To run the backend server, go to the terminal and run</p>
+
+```
+cd backend
+```
+<br/>
+<p>and then</p>
+
+```
+npm start
+```
+
+<p>The backend server will run on localhost:/5000</p>
+
+
