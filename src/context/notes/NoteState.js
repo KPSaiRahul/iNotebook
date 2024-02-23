@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import NoteContext from './noteContext'
-import { json } from 'react-router-dom'
 
 
 // STORE STATES WITHOUT PASSING PROPS FROM CHILDREN TO CHILDREN AND INSTEAD PASS THEM WHENEVER NEEDED THROUGH VALUE
@@ -18,7 +17,7 @@ const NoteState = (props) => {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json", // 'Content-Type': 'application/x-www-form-urlencoded',
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkMWRhODc1YzUyY2RkOGI5ZTlhYzA0In0sImlhdCI6MTcwODI1MzEzOX0.CLZYSD6rKB5_To7zBLTWS16z1ID6qcJ2QrYy0uCCKxs"
+        "auth-token": localStorage.getItem("token")
       }
     });
     // const json = response.json(); // parses JSON response into native JavaScript objects
@@ -35,7 +34,7 @@ const NoteState = (props) => {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json", // 'Content-Type': 'application/x-www-form-urlencoded',
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkMWRhODc1YzUyY2RkOGI5ZTlhYzA0In0sImlhdCI6MTcwODI1MzEzOX0.CLZYSD6rKB5_To7zBLTWS16z1ID6qcJ2QrYy0uCCKxs"
+        "auth-token": localStorage.getItem("token")
       },
       body: JSON.stringify({ title, description, tag })
     });
@@ -53,10 +52,11 @@ const NoteState = (props) => {
       method: "DELETE", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json", // 'Content-Type': 'application/x-www-form-urlencoded',
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkMWRhODc1YzUyY2RkOGI5ZTlhYzA0In0sImlhdCI6MTcwODI1MzEzOX0.CLZYSD6rKB5_To7zBLTWS16z1ID6qcJ2QrYy0uCCKxs"
+        "auth-token": localStorage.getItem("token")
       }
     });
     const json = response.json(); // parses JSON response into native JavaScript objects
+    console.log(json);
     const newNotes = notes.filter((note) => note._id !== id)
     setNotes(newNotes);
   }
@@ -70,12 +70,12 @@ const NoteState = (props) => {
       method: "PUT", // *GET, POST, PUT, DELETE, etc.
       headers: {
         "Content-Type": "application/json", // 'Content-Type': 'application/x-www-form-urlencoded',
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVkMWRhODc1YzUyY2RkOGI5ZTlhYzA0In0sImlhdCI6MTcwODI1MzEzOX0.CLZYSD6rKB5_To7zBLTWS16z1ID6qcJ2QrYy0uCCKxs"
+        "auth-token": localStorage.getItem("token")
       },
       body: JSON.stringify({ title, description, tag })
     });
     const json = await response.json(); // parses JSON response into native JavaScript objects
-
+    console.log(json);
     let newNotes = JSON.parse(JSON.stringify( notes ));
     //Logic to edit on client's end
     for (let index = 0; index < newNotes.length; index++) {

@@ -16,7 +16,7 @@ const Signup = (props) => {
     const json = await response.json();
     console.log(json);
     if (json.success) {  //save the auth token and redirect
-      localStorage.setItem('token', json.authtoken);
+      localStorage.setItem('token', json.authToken);
       history("/");
       props.showAlert("Account created successfully", "success")
     }
@@ -29,7 +29,8 @@ const Signup = (props) => {
     setCreds({ ...creds, [e.target.name]: e.target.value }) // ...note, () means that let note be whatever it is and add the next part to it
   }
   return (
-    <div className='container'>
+    <div className='container mt-2'>
+      <h2>Create an account to use iNoteBook</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Name</label>

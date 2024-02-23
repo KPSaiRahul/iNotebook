@@ -1,7 +1,12 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
+  let history = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    history('/login');
+  }
   let location = useLocation();      // GETTING THE LOCATION TO HIGHLIGHT WHICH PAGE IM ON
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -28,10 +33,11 @@ const NavBar = () => {
                 className={`nav-link ${location.pathname === "/about" ? "active" : ""}`}  //checking location to highlight the page im on
                 to="/about"
               >
-                Link
+                About
               </Link>
             </li>
           </ul>
+          {!localStorage.getItem("token")?
           <form className="d-flex" role="search">
             <input
               className="form-control me-2"
@@ -42,7 +48,7 @@ const NavBar = () => {
           <Link className="btn btn-primary mx-2" to="/login" role="button">Login</Link>
           <Link className="btn btn-primary mx-2" to="/signup" role="button">Signup</Link>
 
-          </form>
+          </form> : <button onClick={handleLogout} className="btn btn-primary">Logout</button> }
         </div>
       </div>
     </nav>

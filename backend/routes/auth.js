@@ -5,7 +5,8 @@ const { query, body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 const fetchuser = require("../middleware/fetchuser");
-const JWT_SECRET = "Harryisagood$boy";
+const JWT_SECRET = "randomcrap";
+
 
 //ROUTE 1: creating a user using POST "/api/auth/createuser". No login required.  doesn't require auth
 router.post(
