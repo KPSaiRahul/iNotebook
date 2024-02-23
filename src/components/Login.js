@@ -16,10 +16,10 @@ const Login = (props) => {
         console.log(json);
         if(json.success) {
             //save the auth token and redirect
-            localStorage.setItem('token',json.authtoken);
-            history("/");
+            localStorage.setItem('token',json.authToken);
             props.showAlert("Logged into your account successfully", "success")
-
+            history("/");
+            
         }
         else{
             props.showAlert("Login failed, try inserting correct defaults", "danger")
@@ -30,7 +30,8 @@ const Login = (props) => {
         setCreds({ ...creds, [e.target.name]: e.target.value }) // ...note, () means that let note be whatever it is and add the next part to it
     }
     return (
-        <div>
+        <div className = "mt-3">
+            <h2>Login to continue to iNoteBook</h2>
             <form onSubmit = {handleSubmit}>
                 <div className="mb-3" onSubmit={handleSubmit}>
                     <label htmlFor="email" className="form-label">Email address</label>
