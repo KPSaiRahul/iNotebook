@@ -18,11 +18,12 @@ router.post(
     }),
   ],
   async (req, res) => {
+    let success = false;
     //if there are errors, return bad req and the errors
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success, errors: errors.array() });
     }
     try {
       //Check whether the user email already exists
@@ -30,7 +31,7 @@ router.post(
       if (user) {
         return res
           .status(400)
-          .json({ error: "Sorry a user with this email already exists" });
+          .json({ success, error: "Sorry a user with this email already exists" });
       }
       // ADDING SALT AND HASHING THE PASSWORD
       const salt = await bcrypt.genSalt(10);
@@ -48,7 +49,9 @@ router.post(
       };
       //USING JWT TOKEN TO NOTE THE USER's AUTHENTICATION
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({ authToken });
+
+      success = true;
+      res.json({ success, authToken });
       // .then(user=>res.json(user))        //CONVERTING USER TO JSON AND ADDING IT ELSE SENDING ERROR
       // .catch(err => {console.log(err)
       // res.json(user);
@@ -71,6 +74,7 @@ router.post(
     body("password", "Password cannot be empty").exists(),
   ],
   async (req, res) => {
+    let success = false;
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -86,9 +90,10 @@ router.post(
       }
       const passwordCompare = await bcrypt.compare(password, user.password);
       if (!passwordCompare) {
+        success = false;
         return res
           .status(400)
-          .json({ err: "Please try to login with correct user credentials" });
+          .json({ success, err: "Please try to login with correct user credentials" });
       }
       const data = {
         user: {
@@ -96,7 +101,8 @@ router.post(
         },
       };
       const authToken = jwt.sign(data, JWT_SECRET);
-      res.json({ authToken });
+      success = true;
+      res.json({ success, authToken });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal Server Error");
@@ -105,16 +111,16 @@ router.post(
 );
 
 //ROUTE 3: Get loggedin user details using POST "/api/auth/getuser". Login required.
-router.post("/getuser",fetchuser,async (req, res) => {
+router.post("/getuser", fetchuser, async (req, res) => {
 
-    try {
-      userId = req.user.id;
-      const user = await User.findById(userId).select("-password");
-      res.send(user);
-    } catch (error) {
-      console.log(error.message);
-      res.status(500).send("Internal Server Error");
-    }
+  try {
+    userId = req.user.id;
+    const user = await User.findById(userId).select("-password");
+    res.send(user);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Internal Server Error");
   }
+}
 );
 module.exports = router;
